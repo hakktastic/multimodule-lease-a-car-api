@@ -28,7 +28,7 @@ services:
       - network-lease-a-car-api
       
   eureka-naming-server:
-    image: hakktastic/netflix-eureka-naming-server:0.0.5-SNAPSHOT
+    image: hakktastic/netflix-eureka-naming-server:0.1.0-SNAPSHOT
     container_name: eureka-naming-server
     build:
       context: ./netflix-eureka-naming-server
@@ -42,7 +42,7 @@ services:
       - network-lease-a-car-api
       
   zuul-api-gateway-server:
-    image: hakktastic/netflix-zuul-api-gateway-server:0.0.5-SNAPSHOT
+    image: hakktastic/netflix-zuul-api-gateway-server:0.1.0-SNAPSHOT
     container_name: zuul-api-gateway-server
     build:
       context: ./netflix-zuul-api-gateway-server
@@ -58,7 +58,7 @@ services:
       - network-lease-a-car-api
 
   customer-service:
-    image: hakktastic/customer-service:0.0.5-SNAPSHOT
+    image: hakktastic/customer-service:0.1.0-SNAPSHOT
     container_name: customer-service
     build:
       context: ./customer-service
@@ -74,7 +74,7 @@ services:
       - network-lease-a-car-api
            
   car-service:
-    image: hakktastic/car-service:0.0.5-SNAPSHOT
+    image: hakktastic/car-service:0.1.0-SNAPSHOT
     container_name: car-service
     build:
       context: ./car-service
@@ -90,7 +90,7 @@ services:
       - network-lease-a-car-api
 
   interest-rate-calculation-service:
-    image: hakktastic/interest-rate-calculation-service:0.0.5-SNAPSHOT
+    image: hakktastic/interest-rate-calculation-service:0.1.0-SNAPSHOT
     container_name: interest-rate-calculation-service
     build:
       context: ./interest-rate-calculation-service
@@ -106,7 +106,7 @@ services:
       - network-lease-a-car-api
 
   lease-calculation-service:
-    image: hakktastic/lease-calculation-service:0.0.5-SNAPSHOT
+    image: hakktastic/lease-calculation-service:0.1.0-SNAPSHOT
     container_name: lease-calculation-service
     build:
       context: ./lease-calculation-service
