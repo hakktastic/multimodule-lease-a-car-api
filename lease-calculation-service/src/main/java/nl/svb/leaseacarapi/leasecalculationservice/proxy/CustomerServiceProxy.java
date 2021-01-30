@@ -10,17 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 /**
  * Proxy for retrieving Customer Entities from Customer-Service through Feign.
  *
- * <p>
- * The request is executed through the Zuul API Gateway by pointing the Feign client to the gateway
- * <b>{@code netflix-zuul-api-gateway-server}</b> instead of the service itself.
- * </p>
- *
  * @author HAKKI CABUK
  *
  */
 
-// Multiple Feign clients require a {@code contextId} annotation attribute
-@FeignClient(contextId = "customer-service", name = "netflix-zuul-api-gateway-server")
+@FeignClient(name = "customer-service", url = "http://customer-service:8081")
 @RibbonClient(name = "customer-service")
 public interface CustomerServiceProxy {
 

@@ -11,17 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 /**
  * Proxy for retrieving Car Entities from Car-Service through Feign.
  *
- * <p>
- * The request is executed through the Zuul API Gateway by pointing the Feign client to the gateway
- * <b>{@code netflix-zuul-api-gateway-server}</b> instead of the service itself.
- * </p>
- *
  * @author HAKKI CABUK
  *
  */
 
-// Multiple Feign clients require a {@code contextId} annotation attribute
-@FeignClient(contextId = "car-service", name = "netflix-zuul-api-gateway-server")
+@FeignClient(name = "car-service", url = "http://car-service:8082")
 @RibbonClient(name = "car-service")
 public interface CarServiceProxy {
 
