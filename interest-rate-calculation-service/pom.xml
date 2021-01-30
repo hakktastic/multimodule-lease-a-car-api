@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>nl.svb.lease-a-car-api.multimodule</groupId>
 		<artifactId>lease-a-car-api</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+		<version>0.1.1-SNAPSHOT</version>
 	</parent>
 	
 	<groupId>nl.svb.lease-a-car-api</groupId>
