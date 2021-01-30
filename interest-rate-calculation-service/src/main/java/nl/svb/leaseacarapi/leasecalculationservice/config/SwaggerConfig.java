@@ -37,7 +37,7 @@ public class SwaggerConfig {
   public Docket api() {
 
     return new Docket(DocumentationType.SWAGGER_2).apiInfo(API_INFO).select()
-        .paths(PathSelectors.regex("/interestrates.*")).build();
+        .paths(PathSelectors.regex("/interest-rate-calculation-service/interestrates.*")).build();
 
 
   }

@@ -35,7 +35,7 @@ public class SwaggerConfig {
   public Docket api() {
 
     return new Docket(DocumentationType.SWAGGER_2).apiInfo(API_INFO).select()
-        .paths(PathSelectors.regex("/cars.*")).build();
+        .paths(PathSelectors.regex("/car-service/cars.*")).build();
 
 
   }
