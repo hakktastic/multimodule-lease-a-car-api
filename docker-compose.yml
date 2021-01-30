@@ -1,61 +1,6 @@
 version: '3.7'
 
-services:
-
-  rabbitmq:
-    image: rabbitmq:3.8-management
-    container_name: rabbitmq
-    hostname: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    restart: always
-    networks:
-      - network-lease-a-car-api
-      
-  zipkin-server:
-    image: openzipkin/zipkin
-    container_name: zipkin-server
-    environment:
-      STORAGE_TYPE: mem
-      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
-    ports:
-      - "9411:9411"
-    restart: always
-    depends_on:
-      - rabbitmq
-    networks:
-      - network-lease-a-car-api
-      
-  eureka-naming-server:
-    image: hakktastic/netflix-eureka-naming-server:0.1.0-SNAPSHOT
-    container_name: eureka-naming-server
-    build:
-      context: ./netflix-eureka-naming-server
-      dockerfile: Dockerfile
-    ports:
-      - "8761:8761"
-    restart: always
-    depends_on:
-      - zipkin-server
-    networks:
-      - network-lease-a-car-api
-      
-  zuul-api-gateway-server:
-    image: hakktastic/netflix-zuul-api-gateway-server:0.1.0-SNAPSHOT
-    container_name: zuul-api-gateway-server
-    build:
-      context: ./netflix-zuul-api-gateway-server
-      dockerfile: Dockerfile
-    environment:
-      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
-    ports:
-      - "8765:8765"
-    restart: always
-    depends_on:
-      - eureka-naming-server
-    networks:
-      - network-lease-a-car-api
+services:     
 
   customer-service:
     image: hakktastic/customer-service:0.1.0-SNAPSHOT
@@ -63,13 +8,9 @@ services:
     build:
       context: ./customer-service
       dockerfile: Dockerfile
-    environment:
-      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
     ports:
       - "8081:8081"
     restart: always
-    depends_on:
-      - zuul-api-gateway-server
     networks:
       - network-lease-a-car-api
            
@@ -79,13 +20,9 @@ services:
     build:
       context: ./car-service
       dockerfile: Dockerfile
-    environment:
-      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
     ports:
       - "8082:8082"
     restart: always
-    depends_on:
-      - zuul-api-gateway-server
     networks:
       - network-lease-a-car-api
 
@@ -95,13 +32,9 @@ services:
     build:
       context: ./interest-rate-calculation-service
       dockerfile: Dockerfile
-    environment:
-      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
     ports:
       - "8083:8083"
     restart: always
-    depends_on:
-      - zuul-api-gateway-server
     networks:
       - network-lease-a-car-api
 
@@ -111,17 +44,15 @@ services:
     build:
       context: ./lease-calculation-service
       dockerfile: Dockerfile
-    environment:
-      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
     ports:
       - "8080:8080"
     restart: always
     depends_on:
-      - zuul-api-gateway-server
       - customer-service
       - car-service
       - interest-rate-calculation-service
     networks:
       - network-lease-a-car-api     
+
 networks:
   network-lease-a-car-api:
