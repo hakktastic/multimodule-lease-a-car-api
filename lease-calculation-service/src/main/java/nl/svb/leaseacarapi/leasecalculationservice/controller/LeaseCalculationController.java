@@ -83,8 +83,6 @@ public class LeaseCalculationController {
     if (optionalCarBean.isPresent() && optionalInterestRateBean.isPresent()
         && optionalCustomerBean.isPresent()) {
 
-      // TODO move lease calculation to a service object
-
       // create lease calculation object
       LeaseRateCalculation leaseRateCalculation = new LeaseRateCalculation(optionalCarBean.get(),
           optionalInterestRateBean.get(), optionalCustomerBean.get(), mileage, duration);
@@ -94,7 +92,7 @@ public class LeaseCalculationController {
 
       responseEntity = new ResponseEntity<>(leaseRateCalculation, HttpStatus.OK);
 
-      logger.info("Calculate Lease Rate --> Response Code -> {} - Response -> {} ",
+      logger.info("Calculate Lease Rate: \n --> Response Code -> {} \n --> Response -> \n {} ",
           responseEntity.getStatusCodeValue(), responseEntity.getBody());
 
     } else {
