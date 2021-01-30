@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    api: lease-a-car-api   
+    service: car-service
+  name: car-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: car-service
+  template:
+    metadata:
+      labels:
+        api: lease-a-car-api
+        service: car-service
+    spec:
+      containers:
+      - image: hakktastic/car-service:0.1.0-SNAPSHOT
+        imagePullPolicy: Always
+        name: car-service
+        ports:
+        - containerPort: 8082
+          protocol: TCP
+        livenessProbe:
+          httpGet:  
+            path: /car-service/actuator/health/liveness  
+            port: 8082  
+          initialDelaySeconds: 60 
+          periodSeconds: 5
+          failureThreshold: 10 
+        readinessProbe:  
+          httpGet:  
+            path: /car-service/actuator/health/readiness  
+            port: 8082  
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          failureThreshold: 10 
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    api: lease-a-car-api
+    service: car-service
+  name: car-service
+  namespace: default
+spec:
+  ports:
+  - name: "8082"
+    port: 8082
+    protocol: TCP
+    targetPort: 8082
+  selector:
+    service: car-service
+  type: NodePort

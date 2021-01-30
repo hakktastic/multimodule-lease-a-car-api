@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  labels:
+    api: lease-a-car-api
+  name: ingress-lease-a-car-api
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /lease-calculation-service/*
+        backend:
+          serviceName: lease-calculation-service
+          servicePort: 8080
+      - path: /customer-service/*
+        backend:
+          serviceName: customer-service
+          servicePort: 8081
+      - path: /car-service/*
+        backend:
+          serviceName: car-service
+          servicePort: 8082
+      - path: /interest-rate-calculation-service/*
+        backend:
+          serviceName: interest-rate-calculation-service
+          servicePort: 8083

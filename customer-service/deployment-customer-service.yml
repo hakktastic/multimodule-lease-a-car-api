@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    api: lease-a-car-api
+    service: customer-service
+  name: customer-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: customer-service
+  template:
+    metadata:
+      labels:
+        api: lease-a-car-api
+        service: customer-service
+    spec:
+      containers:
+      - image: hakktastic/customer-service:0.1.0-SNAPSHOT
+        imagePullPolicy: Always
+        name: customer-service
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+        livenessProbe:
+          httpGet:  
+            path: customer-service/actuator/health/liveness  
+            port: 8081  
+          initialDelaySeconds: 60 
+          periodSeconds: 5
+          failureThreshold: 10 
+        readinessProbe:  
+          httpGet:  
+            path: customer-service/actuator/health/readiness  
+            port: 8081  
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          failureThreshold: 10
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    api: lease-a-car-api
+    service: customer-service
+  name: customer-service
+  namespace: default
+spec:
+  ports:
+  - name: "8081"
+    port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    service: customer-service
+  type: NodePort

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    api: lease-a-car-api
+    service: interest-rate-calculation-service
+  name: interest-rate-calculation-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: interest-rate-calculation-service
+  template:
+    metadata:
+      labels:
+        api: lease-a-car-api
+        service: interest-rate-calculation-service
+    spec:
+      containers:
+      - image: hakktastic/interest-rate-calculation-service:0.1.0-SNAPSHOT
+        imagePullPolicy: Always
+        name: interest-rate-calculation-service
+        ports:
+        - containerPort: 8083
+          protocol: TCP
+        livenessProbe:
+          httpGet:  
+            path: interest-rate-calculation-service/actuator/health/liveness  
+            port: 8083  
+          initialDelaySeconds: 60 
+          periodSeconds: 5
+          failureThreshold: 10 
+        readinessProbe:  
+          httpGet:  
+            path: interest-rate-calculation-service/actuator/health/readiness  
+            port: 8083  
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          failureThreshold: 10
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    api: lease-a-car-api
+    service: interest-rate-calculation-service
+  name: interest-rate-calculation-service
+  namespace: default
+spec:
+  ports:
+  - name: "8083"
+    port: 8083
+    targetPort: 8083
+    protocol: TCP
+  selector:
+    service: interest-rate-calculation-service
+  type: NodePort
