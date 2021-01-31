@@ -19,7 +19,7 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-      - image: hakktastic/car-service:0.1.1-SNAPSHOT
+      - image: hakktastic/car-service:0.1.2-SNAPSHOT
         imagePullPolicy: Always
         name: car-service
         ports:

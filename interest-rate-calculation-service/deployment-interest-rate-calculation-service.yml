@@ -19,7 +19,7 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-      - image: hakktastic/interest-rate-calculation-service:0.1.1-SNAPSHOT
+      - image: hakktastic/interest-rate-calculation-service:0.1.2-SNAPSHOT
         imagePullPolicy: Always
         name: interest-rate-calculation-service
         ports:
