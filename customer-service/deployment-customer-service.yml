@@ -17,8 +17,9 @@ spec:
         api: lease-a-car-api
         service: customer-service
     spec:
+      restartPolicy: Always
       containers:
-      - image: hakktastic/customer-service:0.1.0-SNAPSHOT
+      - image: hakktastic/customer-service:0.1.1-SNAPSHOT
         imagePullPolicy: Always
         name: customer-service
         ports:
@@ -38,7 +39,9 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 5
           failureThreshold: 10
-      restartPolicy: Always
+        env:
+          - name: SPRING_CLOUD_GCP_TRACE_ENABLED
+            value: "true"
 ---
 apiVersion: v1
 kind: Service

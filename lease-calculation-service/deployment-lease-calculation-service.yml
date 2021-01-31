@@ -19,8 +19,9 @@ spec:
         api: lease-a-car-api
         service: lease-calculation-service
     spec:
+      restartPolicy: Always
       containers:
-      - image: hakktastic/lease-calculation-service:0.1.0-SNAPSHOT
+      - image: hakktastic/lease-calculation-service:0.1.1-SNAPSHOT
         imagePullPolicy: Always
         name: lease-calculation-service
         ports:
@@ -39,8 +40,10 @@ spec:
             port: 8080
           initialDelaySeconds: 60
           periodSeconds: 5
-          failureThreshold: 10 
-      restartPolicy: Always
+          failureThreshold: 10
+        env:
+          - name: SPRING_CLOUD_GCP_TRACE_ENABLED
+            value: "true"
 ---
 apiVersion: v1
 kind: Service
