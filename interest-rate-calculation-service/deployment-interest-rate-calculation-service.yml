@@ -19,7 +19,7 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-      - image: hakktastic/interest-rate-calculation-service:0.1.2-SNAPSHOT
+      - image: hakktastic/interest-rate-calculation-service:0.1.3
         imagePullPolicy: Always
         name: interest-rate-calculation-service
         ports:
@@ -39,9 +39,6 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 5
           failureThreshold: 10
-        env:
-          - name: SPRING_CLOUD_GCP_TRACE_ENABLED
-            value: "true"
 ---
 apiVersion: v1
 kind: Service

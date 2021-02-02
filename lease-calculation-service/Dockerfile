@@ -1,5 +1,5 @@
 # improved caching
-FROM openjdk:8
+FROM openjdk:8-jdk-alpine
 EXPOSE 8080
 ARG DEPENDENCY=target/dependency
 COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
