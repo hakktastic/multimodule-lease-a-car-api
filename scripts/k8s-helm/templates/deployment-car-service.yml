@@ -7,7 +7,7 @@ metadata:
   name: car-service
   namespace: default
 spec:
-  replicas: 1
+  replicas: {{.Values.replicaCount}}
   selector:
     matchLabels:
       service: car-service
@@ -19,8 +19,8 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-      - image: hakktastic/car-service:0.1.3
-        imagePullPolicy: Always
+      - image: {{.Values.image.repository}}/car-service:{{.Values.image.tag}}
+        imagePullPolicy: {{.Values.image.pullPolicy}}
         name: car-service
         ports:
         - containerPort: 8082
@@ -56,4 +56,4 @@ spec:
     targetPort: 8082
   selector:
     service: car-service
-  type: NodePort
+  type: {{.Values.service.spec.type}}
